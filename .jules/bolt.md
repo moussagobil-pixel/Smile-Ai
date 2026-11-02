@@ -1,0 +1,3 @@
+## 2025-05-14 - Preconnect for Google Fonts
+**Learning:** To fully optimize Google Fonts loading, preconnecting to `fonts.googleapis.com` (for the CSS) is not enough. You must also preconnect to `fonts.gstatic.com` with the `crossorigin` attribute to eliminate the DNS/TCP/TLS round-trip delay for the actual font files, which can significantly improve First Contentful Paint (FCP).
+**Action:** Always verify that both origins are preconnected when using Google Fonts.
