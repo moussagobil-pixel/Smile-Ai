@@ -1173,9 +1173,14 @@ function handleKey(e) {
   }
 }
 
+let autoResizeRaf;
 function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  // ⚡ Bolt: Wrap in debounced requestAnimationFrame to prevent layout thrashing on every keystroke
+  if (autoResizeRaf) cancelAnimationFrame(autoResizeRaf);
+  autoResizeRaf = requestAnimationFrame(() => {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  });
 }
 
 async function sendMessage() {
