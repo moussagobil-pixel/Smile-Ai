@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smile AI — Ton Coach IA Personnel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- ⚡ Bolt: Add preconnect for fonts.gstatic.com to speed up font loading and improve FCP -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1263,12 +1265,20 @@ function addMessage(role, text) {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+// ⚡ Bolt: Pre-compile regexes outside function scope for better performance during chat rendering
+const formatRegexes = {
+  bold: /\*\*(.*?)\*\*/g,
+  italic: /\*(.*?)\*/g,
+  code: /`(.*?)`/g,
+  newline: /\n/g
+};
+
 function formatMessage(text) {
   return text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`(.*?)`/g, '<code style="background:var(--dark3);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px;">$1</code>')
-    .replace(/\n/g, '<br>');
+    .replace(formatRegexes.bold, '<strong>$1</strong>')
+    .replace(formatRegexes.italic, '<em>$1</em>')
+    .replace(formatRegexes.code, '<code style="background:var(--dark3);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px;">$1</code>')
+    .replace(formatRegexes.newline, '<br>');
 }
 
 function showTyping() {
