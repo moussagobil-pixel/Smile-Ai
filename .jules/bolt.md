@@ -1,0 +1,3 @@
+## 2025-02-23 - [Layout Thrashing in Auto-Resizing Textareas]
+**Learning:** Synchronous height recalculation in auto-resizing textareas (reading `scrollHeight` right after setting `style.height`) causes layout thrashing (forced synchronous layout) on every keystroke, which can severely impact performance and responsiveness, especially on mobile devices.
+**Action:** Always wrap DOM read/write operations (like `el.style.height` and `el.scrollHeight`) in `requestAnimationFrame` when updating layout in response to high-frequency events like `oninput` to ensure the browser can batch layout calculations.
